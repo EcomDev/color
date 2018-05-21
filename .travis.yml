@@ -1,8 +1,7 @@
 language: php
 php:
-  - '7.0'
   - '7.1'
   - '7.2'
   - nightly
 before_script: composer install
-script: composer exec phpunit src --colors
+script: composer test
