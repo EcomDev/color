@@ -1,0 +1,10 @@
+# Composer
+composer.phar
+/vendor/
+
+# PHPStorm
+/.idea/
+/.idea_modules/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
