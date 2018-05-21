@@ -12,6 +12,9 @@
             "email": "ivan.chepurnyi@ecomdev.org"
         }
     ],
+    "require": {
+        "php": "^7.2"
+    },
     "autoload": {
         "psr-4": {
             "EcomDev\\Color\\": "src/"
