@@ -22,7 +22,7 @@ class TristimulusColorFactoryTest extends TestCase
     public function createsFromChromaticityValueForD65()
     {
         $this->assertEquals(
-            [.95043, 1, 1.0889],
+            [.95042, 1, 1.0889],
             $this->colorFactory->createFromChromacity(...CIEIlluminant::D65),
             '',
             0.00001
@@ -33,7 +33,7 @@ class TristimulusColorFactoryTest extends TestCase
     public function createsFromChromaticityValueForD50()
     {
         $this->assertEquals(
-            [.96421, 1,  .82519],
+            [.96421, 1,  .82518],
             $this->colorFactory->createFromChromacity(...CIEIlluminant::D50),
             '',
             0.00001
@@ -47,5 +47,10 @@ class TristimulusColorFactoryTest extends TestCase
             [.96421, 1,  .82519],
             $this->colorFactory->createFromValues(.96421, 1,  .82519)
         );
+    }
+
+    public function creates(string $expectedRegex): void
+    {
+
     }
 }

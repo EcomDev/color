@@ -11,8 +11,9 @@ final class TristimulusColorFactory
 {
     public function createFromChromacity(float $x, float $y, float $luminance = 1)
     {
-        $X = ($luminance / $y) * $x;
-        $Z = ($luminance / $y) * (1 - $x - $y);
+        $z = 1 - $x - $y;
+        $X = ($x * $luminance) / $y;
+        $Z = ($z * $luminance) / $y;
 
         return [$X, $luminance, $Z];
     }

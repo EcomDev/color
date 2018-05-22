@@ -12,8 +12,8 @@ namespace EcomDev\Color;
  */
 interface ColorSerializer
 {
-    const COLOR_DEPTH_16BIT = 65535;
-    const COLOR_DEPTH_8BIT = 255;
+    const DEEP_COLOR = RGBColorSpace::DEEP_COLOR;
+    const TRUE_COLOR = RGBColorSpace::TRUE_COLOR;
 
     /**
      * Encodes linear RGB into corrected RGB code
@@ -23,7 +23,7 @@ interface ColorSerializer
      *
      * @return int[]
      */
-    public function encode(array $rgb, int $colorDepth = self::COLOR_DEPTH_8BIT): array;
+    public function encode(array $rgb, int $colorDepth = self::TRUE_COLOR): array;
 
     /**
      * Decodes gamma corrected RGB code into linear value
@@ -33,5 +33,5 @@ interface ColorSerializer
      *
      * @return float[]
      */
-    public function decode(array $rgb, int $colorDepth = self::COLOR_DEPTH_8BIT): array;
+    public function decode(array $rgb, int $colorDepth = self::TRUE_COLOR): array;
 }

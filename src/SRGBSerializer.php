@@ -19,7 +19,7 @@ class SRGBSerializer implements ColorSerializer
      *
      * @return int[]
      */
-    public function encode(array $rgb, int $colorDepth = self::COLOR_DEPTH_8BIT): array
+    public function encode(array $rgb, int $colorDepth = self::TRUE_COLOR): array
     {
         return array_map(
             function (float $linear) use ($colorDepth) : int {
@@ -39,7 +39,7 @@ class SRGBSerializer implements ColorSerializer
      *
      * @return float[]
      */
-    public function decode(array $rgb, int $colorDepth = self::COLOR_DEPTH_8BIT): array
+    public function decode(array $rgb, int $colorDepth = self::TRUE_COLOR): array
     {
         return array_map(
             function (int $code) use ($colorDepth) : float {

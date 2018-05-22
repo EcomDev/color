@@ -64,7 +64,7 @@ class SRGBSerializerTest extends TestCase
     {
         $this->assertEquals(
             $rgbCode,
-            $this->serializer->encode($rgbLinear, ColorSerializer::COLOR_DEPTH_16BIT),
+            $this->serializer->encode($rgbLinear, ColorSerializer::DEEP_COLOR),
             '',
             0.00001
         );
@@ -79,7 +79,7 @@ class SRGBSerializerTest extends TestCase
     {
         $this->assertEquals(
             $rgbLinear,
-            $this->serializer->decode($rgbCode, ColorSerializer::COLOR_DEPTH_16BIT),
+            $this->serializer->decode($rgbCode, ColorSerializer::DEEP_COLOR),
             '',
             0.00001
         );
