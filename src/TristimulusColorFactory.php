@@ -7,18 +7,23 @@
 namespace EcomDev\Color;
 
 
-final class TristimulusValueFactory
+final class TristimulusColorFactory
 {
     public function createFromChromacity(float $x, float $y, float $luminance = 1)
     {
         $X = ($luminance / $y) * $x;
         $Z = ($luminance / $y) * (1 - $x - $y);
 
-        return new TristimulusValue($X, $luminance, $Z);
+        return [$X, $luminance, $Z];
     }
 
-    public function createFromTristimulusValues(float $X, float $Y, float $Z)
+    public function createFromValues(float $X, float $Y, float $Z)
     {
-        return new TristimulusValue($X, $Y, $Z);
+        return [$X, $Y, $Z];
+    }
+
+    public function createFromRGB(array $rgb, RGBColorSpace $colorSpace): array
+    {
+        throw new \LogicException('Not implemented yet');
     }
 }

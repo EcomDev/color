@@ -10,19 +10,19 @@ use PHPUnit\Framework\TestCase;
 
 class TristimulusColorFactoryTest extends TestCase
 {
-    /** @var TristimulusValueFactory */
+    /** @var TristimulusColorFactory */
     private $colorFactory;
 
     protected function setUp()
     {
-        $this->colorFactory = new TristimulusValueFactory();
+        $this->colorFactory = new TristimulusColorFactory();
     }
 
     /** @test */
     public function createsFromChromaticityValueForD65()
     {
         $this->assertEquals(
-            new TristimulusValue(.95043, 1, 1.0889),
+            [.95043, 1, 1.0889],
             $this->colorFactory->createFromChromacity(...CIEIlluminant::D65),
             '',
             0.00001
@@ -33,7 +33,7 @@ class TristimulusColorFactoryTest extends TestCase
     public function createsFromChromaticityValueForD50()
     {
         $this->assertEquals(
-            new TristimulusValue(.96421, 1,  .82519),
+            [.96421, 1,  .82519],
             $this->colorFactory->createFromChromacity(...CIEIlluminant::D50),
             '',
             0.00001
@@ -41,11 +41,11 @@ class TristimulusColorFactoryTest extends TestCase
     }
 
     /** @test */
-    public function createsFromTristimulusValues()
+    public function createsFromStaticValues()
     {
         $this->assertEquals(
-            new TristimulusValue(0.95047, 1, 1.0883),
-            $this->colorFactory->createFromTristimulusValues(0.95047, 1, 1.0883)
+            [.96421, 1,  .82519],
+            $this->colorFactory->createFromValues(.96421, 1,  .82519)
         );
     }
 }
