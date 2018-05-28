@@ -60,30 +60,43 @@ final class RGBColorSpace
         $this->squareMatrixFactory = $squareMatrixFactory;
     }
 
-    public function rgbToTristimusMatix(): SquareMatrix
+    public function rgbToTristimulusMatix(): SquareMatrix
     {
         list($whiteRedRatio, $whiteGreenRatio, $whiteBlueRatio) = $this->squareMatrixFactory
-            ->createFromVectors(
-                $this->redPrimary,
-                $this->greenPrimary,
-                $this->bluePrimary
-            )
+            ->createFromArray([
+                [$this->redPrimary[0], $this->greenPrimary[0], $this->bluePrimary[0]],
+                [$this->redPrimary[1], $this->greenPrimary[1], $this->bluePrimary[1]],
+                [$this->redPrimary[2], $this->greenPrimary[2], $this->bluePrimary[2]],
+            ])
             ->inverse()
             ->multiplyByVector($this->whitePoint)
         ;
 
+        $matrix = [
+            [
+                $this->redPrimary[0] * $whiteRedRatio,
+                $this->greenPrimary[0] * $whiteGreenRatio,
+                $this->bluePrimary[0] * $whiteBlueRatio,
+            ],
+            [
+                $this->redPrimary[1] * $whiteRedRatio,
+                $this->greenPrimary[1] * $whiteGreenRatio,
+                $this->bluePrimary[1] * $whiteBlueRatio,
+            ],
+            [
+                $this->redPrimary[2] * $whiteRedRatio,
+                $this->greenPrimary[2] * $whiteGreenRatio,
+                $this->bluePrimary[2] * $whiteBlueRatio,
+            ]
+        ];
 
-        return $this->squareMatrixFactory->createFromVectors(
-            $this->multiplyPrimary($this->redPrimary, $whiteRedRatio),
-            $this->multiplyPrimary($this->greenPrimary, $whiteGreenRatio),
-            $this->multiplyPrimary($this->bluePrimary, $whiteBlueRatio)
-        );
+        return $this->squareMatrixFactory->createFromArray($matrix);
     }
 
 
-    public function tristimusToRgbMatrix(): SquareMatrix
+    public function tristimulusToRgbMatrix(): SquareMatrix
     {
-        return $this->rgbToTristimusMatix()->inverse();
+        return $this->rgbToTristimulusMatix()->inverse();
     }
 
     public function encodeColor(array $rgb, $depth = self::TRUE_COLOR): array
@@ -94,15 +107,5 @@ final class RGBColorSpace
     public function decodeColor(array $rgb, $depth = self::TRUE_COLOR): array
     {
         return $this->colorSerializer->decode($rgb, $depth);
-    }
-
-    private function multiplyPrimary(array $primary, float $multiplier): array
-    {
-        $result = [];
-        foreach ($primary as $index => $value) {
-            $result[$index] = $value * $multiplier;
-        }
-
-        return $result;
     }
 }

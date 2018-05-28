@@ -9,7 +9,6 @@ namespace EcomDev\Color;
 
 class RGBColorSpaceFactory
 {
-
     private const COLOR_SPACE_SRGB = [
         [0.64, 0.33, 0.2126],
         [0.3, 0.6, 0.7152],
@@ -48,6 +47,8 @@ class RGBColorSpaceFactory
         array $whitePoint,
         float $gamma
     ): RGBColorSpace {
+
+
         return new RGBColorSpace(
             $this->colorFactory->createFromChromacity(...$redPrimary),
             $this->colorFactory->createFromChromacity(...$greenPrimary),
@@ -70,19 +71,5 @@ class RGBColorSpaceFactory
             $this->serializerFactory->createSRGBSerializer(),
             $this->matrixFactory
         );
-    }
-
-    /**
-     * @param float $gamma
-     *
-     * @return GammaCurveSerializer
-     */
-    protected function createColorSerializer(float $gamma): ColorSerializer
-    {
-        if ($gamma === null) {
-            return $this->serializerFactory->createSRGBSerializer();
-        }
-
-        return $this->serializerFactory->createGammaCurveSerializer($gamma);
     }
 }

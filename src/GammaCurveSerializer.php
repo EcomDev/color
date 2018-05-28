@@ -32,7 +32,7 @@ class GammaCurveSerializer implements ColorSerializer
     {
         return array_map(
             function (float $linear) use ($colorDepth) : int {
-                return (int)round(pow($linear, 1 / $this->gamma) * $colorDepth);
+                return (int)round($linear ** (1 / $this->gamma) * $colorDepth);
             },
             $rgb
         );
@@ -50,7 +50,7 @@ class GammaCurveSerializer implements ColorSerializer
     {
         return array_map(
             function (int $code) use ($colorDepth) : float {
-                return (float)pow($code / $colorDepth, $this->gamma);
+                return (float)($code / $colorDepth) ** $this->gamma;
             },
             $rgb
         );

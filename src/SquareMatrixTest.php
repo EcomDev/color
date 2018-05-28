@@ -8,7 +8,7 @@ namespace EcomDev\Color;
 
 use PHPUnit\Framework\TestCase;
 
-class LinearAlgebraSquareMatrixTest extends TestCase
+class SquareMatrixTest extends TestCase
 {
     /**
      * @var MathSquareMatrixFactory
@@ -59,7 +59,7 @@ class LinearAlgebraSquareMatrixTest extends TestCase
     }
 
     /** @test */
-    public function multipliesMatrixByVector()
+    public function multipliesThreeByThreeMatrixByVector()
     {
         $matrix = $this->squareMatrixFactory->createFromArray([
             [0.5,  0.1,  0.2],
@@ -70,6 +70,20 @@ class LinearAlgebraSquareMatrixTest extends TestCase
         $this->assertEquals(
             [6.1, 9.5, 10.5],
             $matrix->multiplyByVector([10, 5, 3])
+        );
+    }
+
+    /** @test */
+    public function multipliesTwoByTwoMatrixByVector()
+    {
+        $matrix = $this->squareMatrixFactory->createFromArray([
+            [0.5,  0.1],
+            [0.4,  0.8],
+        ]);
+
+        $this->assertEquals(
+            [5.5, 8.0],
+            $matrix->multiplyByVector([10, 5])
         );
     }
 }

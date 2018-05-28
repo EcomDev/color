@@ -59,7 +59,7 @@ class SRGBSerializer implements ColorSerializer
             return $linear * 12.92;
         }
 
-        return 1.055 * pow($linear, 1 / 2.4) - .055;
+        return 1.055 * ($linear ** (1 / 2.4)) - .055;
     }
 
     private function reverseSRGBTransformation(float $sRGBLinear): float
@@ -68,6 +68,6 @@ class SRGBSerializer implements ColorSerializer
             return $sRGBLinear / 12.92;
         }
 
-        return pow(($sRGBLinear + .055) / 1.055, 2.4);
+        return (($sRGBLinear + .055) / 1.055) ** 2.4;
     }
 }

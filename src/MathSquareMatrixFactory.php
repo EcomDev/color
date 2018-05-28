@@ -24,27 +24,13 @@ final class MathSquareMatrixFactory implements SquareMatrixFactory
 
     public function createFromArray(array $matrix): SquareMatrix
     {
-        return $this->createMatrix(
-            $this->linearAlgebraFactory->createMatrix($matrix)
-        );
-    }
+        if (count($matrix) === 3) {
+            return new OptimizedThreeByTheeMatrix(\SplFixedArray::fromArray(array_merge(...$matrix), false));
+        }
 
-    public function createFromVectors(array ...$vectors): SquareMatrix
-    {
-        return $this->createMatrix(
-            $this->linearAlgebraFactory->createFromVectors(
-                ...array_map([$this->linearAlgebraFactory, 'createVector'], $vectors)
-            )
-        );
-    }
-
-    protected function createMatrix(Matrix $mathMatrix): MathSquareMatrix
-    {
         return new MathSquareMatrix(
-            $mathMatrix,
+            $this->linearAlgebraFactory->createMatrix($matrix),
             $this->linearAlgebraFactory
         );
     }
-
-
 }

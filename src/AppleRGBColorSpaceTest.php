@@ -10,7 +10,7 @@ namespace EcomDev\Color;
 
 use PHPUnit\Framework\TestCase;
 
-class SRGBColorSpaceTest extends TestCase
+class AppleRGBColorSpaceTest extends TestCase
 {
     /** @var RGBColorSpace */
     private $colorSpace;
@@ -18,7 +18,13 @@ class SRGBColorSpaceTest extends TestCase
     protected function setUp()
     {
         $factory = new RGBColorSpaceFactory();
-        $this->colorSpace = $factory->createSRGB();
+        $this->colorSpace = $factory->createFromPrimary(
+            [0.6250, 0.3400],
+            [0.2800, 0.5950],
+            [0.1550, 0.0700],
+            CIEIlluminant::D65,
+            1.8
+        );
     }
 
     /** @test */
@@ -30,11 +36,11 @@ class SRGBColorSpaceTest extends TestCase
             $this->colorSpace->rgbToTristimulusMatix(),
             $this->equalTo(
                 $matrixFactory->createFromArray([
-                    [.4123866, .3575915, .1804505],
-                    [.2126368, .7151830, .0721802],
-                    [.0193306, .1191972, .9503726]
+                    [.4496588, .3162637, .1845061],
+                    [.2446144, .6720603, .0833253],
+                    [.0251809, .1411891, .9225303]
                 ]),
-                0.0000001
+                .0000001
             )
         );
     }
@@ -47,9 +53,9 @@ class SRGBColorSpaceTest extends TestCase
             $this->colorSpace->tristimulusToRgbMatrix(),
             $this->equalTo(
                 $matrixFactory->createFromArray([
-                    [ 3.2410032, -1.5373990, -0.4986159],
-                    [-0.9692243,  1.8759300,  0.0415542],
-                    [ 0.0556394, -0.2040112,  1.0571490]
+                    [ 2.9519969, -1.2896124, -0.4739183],
+                    [-1.0850577,  1.9907618,  0.0372008],
+                    [ 0.0854871, -0.2694766,  1.0912176]
                 ]),
                 0.0000001
             )
@@ -58,10 +64,10 @@ class SRGBColorSpaceTest extends TestCase
 
     /**
      * @test
-     * @testWith [[0.212231, 0.212231, 0.212231], [127, 127, 127]]
-     *           [[0.010330, 0.033105, 0.074214], [26, 51, 77]]
-     *           [[0.002125, 0.002125, 0.002125], [7, 7, 7]]
-     *           [[0.000304, 0.001821, 0.031896], [1, 6, 50]]
+     * @testWith [[0.285151, 0.285151, 0.285151], [127, 127, 127]]
+     *           [[0.016413, 0.055189, 0.115854], [26, 51, 77]]
+     *           [[0.001547, 0.001547, 0.001547], [7, 7, 7]]
+     *           [[0.000047, 0.001172, 0.053257], [1, 6, 50]]
      */
     public function encodesRGBColorFromLinear(array $rgbLinear, array $rgbCode)
     {
@@ -73,10 +79,10 @@ class SRGBColorSpaceTest extends TestCase
 
     /**
      * @test
-     * @testWith [[127, 127, 127], [0.212231, 0.212231, 0.212231]]
-     *           [[26, 51, 77], [0.010330, 0.033105, 0.074214]]
-     *           [[7, 7, 7], [0.002125, 0.002125, 0.002125]]
-     *           [[1, 6, 50], [0.000304, 0.001821, 0.031896]]
+     * @testWith [[127, 127, 127], [0.285151, 0.285151, 0.285151]]
+     *           [[26, 51, 77],    [0.016413, 0.055189, 0.115854]]
+     *           [[7, 7, 7],       [0.001547, 0.001547, 0.001547]]
+     *           [[1, 6, 50],      [0.000047, 0.001172, 0.053257]]
      */
     public function decodesLinearFromRGBColor(array $rgbCode, array $rgbLinear)
     {
@@ -88,10 +94,10 @@ class SRGBColorSpaceTest extends TestCase
 
     /**
      * @test
-     * @testWith [[0.212231, 0.212231, 0.212231], [32639, 32639, 32639]]
-     *           [[0.010330, 0.033105, 0.074214], [6682, 13107, 19789]]
-     *           [[0.002125, 0.002125, 0.002125], [1799, 1799, 1799]]
-     *           [[0.000304, 0.001821, 0.031896], [257, 1542, 12850]]
+     * @testWith [[0.285151,  0.285151, 0.285151], [32639, 32639, 32639]]
+     *           [[0.016413,  0.055189, 0.115854], [6682, 13107, 19789]]
+     *           [[0.001547,  0.001547, 0.001547], [1799, 1799, 1799]]
+     *           [[0.0000467, 0.001172, 0.053257], [257, 1542, 12850]]
      */
     public function encodesDeepRGBColorFromLinear(array $rgbLinear, array $rgbCode)
     {
@@ -103,10 +109,10 @@ class SRGBColorSpaceTest extends TestCase
 
     /**
      * @test
-     * @testWith [[32639, 32639, 32639], [0.212231, 0.212231, 0.212231]]
-     *           [[6682, 13107, 19789], [0.010330, 0.033105, 0.074214]]
-     *           [[1799, 1799, 1799], [0.002125, 0.002125, 0.002125]]
-     *           [[257, 1542, 12850], [0.000304, 0.001821, 0.031896]]
+     * @testWith [[32639, 32639, 32639], [0.285151, 0.285151, 0.285151]]
+     *           [[6682, 13107, 19789],  [0.016413, 0.055189, 0.115854]]
+     *           [[1799, 1799, 1799],    [0.001547, 0.001547, 0.001547]]
+     *           [[257, 1542, 12850],    [0.000047, 0.001172, 0.053257]]
      */
     public function decodesLinearFromDeepRGBColor(array $rgbCode, array $rgbLinear)
     {

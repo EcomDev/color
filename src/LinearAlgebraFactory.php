@@ -22,9 +22,4 @@ class LinearAlgebraFactory
     {
         return new Vector($literal);
     }
-
-    public function createFromVectors(Vector ...$vectors): Matrix
-    {
-        return MatrixFactory::create($vectors);
-    }
 }

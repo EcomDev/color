@@ -6,9 +6,16 @@
 
 namespace EcomDev\Color;
 
-
 final class TristimulusColorFactory
 {
+    /** @var CIELabConverter */
+    private $labConverter;
+
+    public function __construct(CIELabConverter $labConverter = null)
+    {
+        $this->labConverter = $labConverter ?? new CIELabConverter();
+    }
+
     public function createFromChromacity(float $x, float $y, float $luminance = 1)
     {
         $z = 1 - $x - $y;
@@ -25,6 +32,19 @@ final class TristimulusColorFactory
 
     public function createFromRGB(array $rgb, RGBColorSpace $colorSpace): array
     {
-        throw new \LogicException('Not implemented yet');
+        $rgbLinear = $colorSpace->decodeColor($rgb);
+        return $colorSpace->rgbToTristimulusMatix()->multiplyByVector($rgbLinear);
+    }
+
+    public function createFrom16BitRGB(array $rgb, RGBColorSpace $colorSpace): array
+    {
+        $rgbLinear = $colorSpace->decodeColor($rgb, RGBColorSpace::DEEP_COLOR);
+        return $colorSpace->rgbToTristimulusMatix()->multiplyByVector($rgbLinear);
+    }
+
+    public function createFromLab(array $labColor, array $whiteChromacity): array
+    {
+        $whitePoint = $this->createFromChromacity(...$whiteChromacity);
+        return $this->labConverter->convertToTristimusValue($labColor, $whitePoint);
     }
 }
